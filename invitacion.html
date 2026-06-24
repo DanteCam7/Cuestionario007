@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Operación Secreta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0a0a0a;
+      --surface: #111111;
+      --border:  #1c1c1c;
+      --text:    #ffffff;
+      --muted:   #444444;
+      --radius:  6px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    /* ── Loading ── */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: opacity .6s ease;
+    }
+    #loading.fade-out { opacity: 0; pointer-events: none; }
+
+    .loading-inner { text-align: center; width: 260px; }
+
+    .eye-icon {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 1.5px solid var(--text);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.6rem;
+    }
+    .eye-icon::after {
+      content: '';
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--text);
+    }
+
+    .loading-system {
+      font-size: .55rem;
+      letter-spacing: .25em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: .4rem;
+    }
+    .loading-title {
+      font-size: 1.1rem;
+      font-weight: 200;
+      letter-spacing: .1em;
+      color: var(--text);
+      margin-bottom: 1.8rem;
+      line-height: 1.4;
+    }
+
+    .bar-container { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1.2rem; }
+    .bar-row { display: flex; align-items: center; gap: .8rem; }
+    .bar-label { font-size: .55rem; letter-spacing: .1em; color: var(--muted); width: 70px; text-align: right; }
+    .bar-track { flex: 1; height: 1.5px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .bar-fill  { height: 100%; width: 0%; background: var(--text); border-radius: 99px; }
+
+    .loading-status { font-size: .6rem; letter-spacing: .15em; color: var(--muted); }
+    .loading-status .status-val { color: var(--text); }
+
+    /* ── Card ── */
+    .card { max-width: 400px; width: 100%; position: relative; z-index: 1; }
+
+    /* ── Footer ── */
+    .footer-note {
+      margin-top: 2rem;
+      font-size: .6rem;
+      letter-spacing: .12em;
+      color: #222;
+      text-transform: uppercase;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="loading-inner">
+    <div class="eye-icon"></div>
+    <div class="loading-system">Sistema de verificación</div>
+    <div class="loading-title">ESCANEANDO<br>IDENTIDAD…</div>
+    <div class="bar-container">
+      <div class="bar-row"><span class="bar-label">HUELLA</span><div class="bar-track"><div class="bar-fill" id="bar1"></div></div></div>
+      <div class="bar-row"><span class="bar-label">ROSTRO</span><div class="bar-track"><div class="bar-fill" id="bar2"></div></div></div>
+      <div class="bar-row"><span class="bar-label">VOZ</span><div class="bar-track"><div class="bar-fill" id="bar3"></div></div></div>
+    </div>
+    <div class="loading-status">ESTADO: <span class="status-val" id="loadingStatus">VERIFICANDO…</span></div>
+  </div>
+</div>
+
+<div class="card" id="mainCard">
+  <!-- Steps go here -->
+</div>
+
+<p class="footer-note">Hecho con mucha intención · Solo para ojos selectos</p>
+
+<script>
+  (function () {
+    const bars = [
+      { el: document.getElementById('bar1'), duration: 1800 },
+      { el: document.getElementById('bar2'), duration: 2400 },
+      { el: document.getElementById('bar3'), duration: 2800 },
+    ];
+    const statusEl  = document.getElementById('loadingStatus');
+    const loadingEl = document.getElementById('loading');
+
+    bars.forEach(({ el, duration }) => {
+      el.style.transition = `width ${duration}ms linear`;
+      requestAnimationFrame(() => requestAnimationFrame(() => { el.style.width = '100%'; }));
+    });
+
+    setTimeout(() => { statusEl.textContent = 'ACCESO CONCEDIDO'; }, 2600);
+    setTimeout(() => {
+      loadingEl.classList.add('fade-out');
+      setTimeout(() => { loadingEl.style.display = 'none'; }, 600);
+    }, 3000);
+  })();
+</script>
+</body>
+</html>
