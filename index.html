@@ -244,6 +244,14 @@
     .success-body  { font-size: .75rem; color: var(--text-secondary); text-align: center; line-height: 1.9; letter-spacing: .04em; }
     .success-code  { font-size: .55rem; letter-spacing: .2em; color: var(--text-hint); text-align: center; text-transform: uppercase; margin-top: 1.4rem; }
     .success-em { color: var(--text-hint); font-style: italic; }
+
+    /* ── GIF ── */
+    .gif-wrap { width: 100%; margin-bottom: .2rem; }
+    .gif-wrap iframe { width: 100%; height: 220px; border: none; border-radius: 8px; display: block; }
+
+    /* ── Rejection ── */
+    #rejection { display: none; }
+    #rejection.visible { display: block; animation: fadeIn .5s ease; }
   </style>
 </head>
 <body>
@@ -263,121 +271,65 @@
 </div>
 
 <div class="card" id="mainCard">
-  <!-- ── STEP 1 ── -->
-  <div id="step1">
+
+  <!-- ── FORM ── -->
+  <div id="formStep">
     <div class="op-label">Operación Secreta</div>
-    <h1>Identificación<br>requerida.</h1>
-    <p class="subtitle">Completa el formulario para continuar</p>
-
-    <div class="progress">
-      <span class="done"></span>
-      <span></span>
-    </div>
-
-    <div class="field">
-      <label class="field-label" for="nombre">Nombre en clave</label>
-      <input type="text" id="nombre" placeholder="Tu nombre…" maxlength="40" />
-    </div>
-
-    <div class="field">
-      <label class="field-label" for="apellido">Apellido — para el expediente</label>
-      <input type="text" id="apellido" placeholder="Tu apellido…" maxlength="40" />
-    </div>
-
-    <div class="field">
-      <label class="field-label" for="ciudad">Base de operaciones</label>
-      <input type="text" id="ciudad" placeholder="Ciudad o colonia…" maxlength="60" />
-    </div>
-
-    <div class="field">
-      <label class="field-label" for="ocupacion">Cobertura oficial</label>
-      <div class="select-wrap">
-        <select id="ocupacion">
-          <option value="">— elige una —</option>
-          <option>Trabajo (horario de oficina)</option>
-          <option>Trabajo (horario flexible)</option>
-          <option>Trabajo (turno nocturno 🦉)</option>
-          <option>Estudio</option>
-          <option>Trabajo y estudio (modo héroe)</option>
-          <option>Descanso merecido por el momento</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="field">
-      <label class="field-label">Vulnerabilidad crítica <small class="label-hint">(elige las que quieras)</small></label>
-      <div class="chips" id="comidaChips">
-        <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Tacos 🌮">Tacos 🌮</label>
-        <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Sushi 🍣">Sushi 🍣</label>
-        <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Pizza 🍕">Pizza 🍕</label>
-        <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Hamburguesa 🍔">Hamburguesa 🍔</label>
-        <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Ramen 🍜">Ramen 🍜</label>
-        <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Mariscos 🦐">Mariscos 🦐</label>
-        <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Pozole 🥣">Pozole 🥣</label>
-        <label class="chip"><input type="checkbox" class="chip-input comida-check" value="De todo 😋">De todo 😋</label>
-      </div>
-    </div>
-
-    <button class="btn" onclick="goToStep2()">Continuar →</button>
-  </div>
-
-  <!-- ── STEP 2 ── -->
-  <div id="step2">
-    <div class="progress">
-      <span class="done"></span>
-      <span class="done"></span>
-    </div>
-
-    <div class="mission-icon">🕵️</div>
-    <p class="mission-q">"¿Aceptas la misión,<br><strong id="nombreDisplay">agente</strong>?"</p>
-    <p class="subtitle">Sin presión. Solo confirma cuándo y a qué hora.</p>
+    <h1>Antes de continuar…</h1>
+    <p class="subtitle">Necesito saber unas cositas 🕵️</p>
 
     <form id="mainForm" action="https://formspree.io/f/xykqkzok" method="POST">
-      <input type="hidden" name="Nombre en clave"       id="hNombre" />
-      <input type="hidden" name="Apellido"               id="hApellido" />
-      <input type="hidden" name="Base de operaciones"    id="hCiudad" />
-      <input type="hidden" name="Cobertura oficial"      id="hOcupacion" />
-      <input type="hidden" name="Vulnerabilidad critica" id="hComida" />
-      <input type="hidden" name="Hora de extraccion"     id="hHora" />
-      <input type="hidden" name="Respuesta"              id="hRespuesta" />
-
-      <hr class="divider" />
 
       <div class="field">
-        <label class="field-label">Ventana operativa</label>
-        <div class="chips" id="fechaChips">
-          <label class="chip"><input type="radio" class="chip-input" name="Fecha" value="Esta semana">Esta semana</label>
-          <label class="chip"><input type="radio" class="chip-input" name="Fecha" value="La otra semana">La otra semana</label>
-          <label class="chip"><input type="radio" class="chip-input" name="Fecha" value="El otro finde">El otro finde</label>
-          <label class="chip"><input type="radio" class="chip-input" name="Fecha" value="Cuando tú digas 👀">Cuando tú digas 👀</label>
-        </div>
+        <label class="field-label" for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="Nombre" placeholder="Tu nombre…" maxlength="40" />
       </div>
 
       <div class="field">
-        <label class="field-label">Hora de extracción</label>
-        <div class="chips" id="horaChips">
-          <label class="chip"><input type="radio" class="chip-input" name="Hora" value="~12pm 🌤️">~12pm 🌤️</label>
-          <label class="chip"><input type="radio" class="chip-input" name="Hora" value="~3pm ☀️">~3pm ☀️</label>
-          <label class="chip"><input type="radio" class="chip-input" name="Hora" value="~7pm 🌙">~7pm 🌙</label>
-          <label class="chip"><input type="radio" class="chip-input" name="Hora" value="Otra">Otra ✍️</label>
-        </div>
-        <div id="horaOtraWrap">
-          <input type="text" id="horaOtra" placeholder="¿A qué hora te viene bien?" maxlength="40" />
-        </div>
+        <label class="field-label" for="apodo">¿Cómo te gusta que te llamen?</label>
+        <input type="text" id="apodo" name="Apodo" placeholder="Apodo o como te llaman…" maxlength="40" />
       </div>
 
-      <hr class="divider" />
+      <div class="field">
+        <label class="field-label" for="disponibilidad">¿Cuándo podrías salir?</label>
+        <input type="text" id="disponibilidad" name="Disponibilidad" placeholder="Días, horarios, lo que prefieras…" maxlength="80" />
+      </div>
 
+      <div class="field">
+        <label class="field-label">¿Qué te gusta comer? <small class="label-hint">(elige las que quieras)</small></label>
+        <div class="chips" id="comidaChips">
+          <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Tacos 🌮">Tacos 🌮</label>
+          <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Sushi 🍣">Sushi 🍣</label>
+          <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Pizza 🍕">Pizza 🍕</label>
+          <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Hamburguesa 🍔">Hamburguesa 🍔</label>
+          <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Ramen 🍜">Ramen 🍜</label>
+          <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Mariscos 🦐">Mariscos 🦐</label>
+          <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Pozole 🥣">Pozole 🥣</label>
+          <label class="chip"><input type="checkbox" class="chip-input comida-check" value="De todo 😋">De todo 😋</label>
+        </div>
+        <input type="hidden" name="Comida favorita" id="hComida" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="datoKurioso">Dato curioso sobre ti</label>
+        <input type="text" id="datoKurioso" name="Dato curioso" placeholder="Algo que quieras que sepa…" maxlength="100" />
+      </div>
+
+      <input type="hidden" name="Respuesta" id="hRespuesta" />
+
+      <hr class="divider" />
       <p style="font-size:.65rem; color:var(--text-hint); text-align:center; margin-bottom:.8rem; letter-spacing:.06em;">🔒 INFORMACIÓN CLASIFICADA · SOLO PARA MIS OJOS</p>
 
       <button type="submit" class="btn">Acepto la misión 🕵️</button>
-      <button type="button" class="btn btn-outline" id="btnDecline" onclick="declineDate()">Necesito más tiempo… 🙈</button>
+      <button type="button" class="btn btn-outline" id="btnDecline" onclick="declineDate()">No gracias</button>
     </form>
   </div>
 
   <!-- ── SUCCESS ── -->
   <div id="success">
-    <div class="success-emoji">🕵️‍♂️✉️</div>
+    <div class="gif-wrap">
+      <iframe src="https://tenor.com/embed/17862068979442274664" allowfullscreen></iframe>
+    </div>
     <div class="success-title">Misión aceptada.</div>
     <hr class="divider" />
     <p class="success-body">
@@ -388,6 +340,21 @@
     <hr class="divider" />
     <div class="success-code">Expediente #007 · Clasificado 🔒</div>
   </div>
+
+  <!-- ── REJECTION ── -->
+  <div id="rejection">
+    <div class="gif-wrap">
+      <iframe src="https://tenor.com/embed/27055064" allowfullscreen></iframe>
+    </div>
+    <div class="success-title" style="margin-top:1.2rem;">Entendido. 😌</div>
+    <hr class="divider" />
+    <p class="success-body">
+      Sin presión.<br><br>
+      La propuesta queda sobre la mesa<br>por si cambias de opinión.<br><br>
+      <em class="success-em">Ya sabes dónde encontrarme.</em>
+    </p>
+  </div>
+
 </div>
 
 <p class="footer-note">Hecho con mucha intención · Solo para ojos selectos</p>
@@ -421,89 +388,29 @@
       if (!chip) return;
       const input = chip.querySelector('input');
       if (!input) return;
-      if (input.type === 'checkbox') {
-        input.checked = !input.checked;
-        chip.classList.toggle('selected', input.checked);
-      } else if (input.type === 'radio') {
-        group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-        chip.classList.add('selected');
-        input.checked = true;
-        if (group.id === 'horaChips') {
-          const showOtra = input.value === 'Otra';
-          document.getElementById('horaOtraWrap').classList.toggle('visible', showOtra);
-          if (showOtra) { document.getElementById('horaOtra').focus(); }
-        }
-        if (group.id === 'fechaChips') {
-          updateHoraAvailability(input.value);
-        }
-      }
+      input.checked = !input.checked;
+      chip.classList.toggle('selected', input.checked);
     });
   });
-
-  // ── Hora availability por fecha ─────────────────────────────────
-  const EARLY_HOURS = ['~12pm 🌤️', '~3pm ☀️'];
-
-  function updateHoraAvailability(fecha) {
-    document.getElementById('horaChips').querySelectorAll('.chip').forEach(chip => {
-      const input = chip.querySelector('input');
-      if (!input) return;
-      const isEarly = EARLY_HOURS.includes(input.value);
-      if (fecha === 'Esta semana' && isEarly) {
-        chip.classList.add('disabled');
-        if (input.checked) {
-          input.checked = false;
-          chip.classList.remove('selected');
-          document.getElementById('horaOtraWrap').classList.remove('visible');
-        }
-      } else {
-        chip.classList.remove('disabled');
-      }
-    });
-  }
-
-  // ── Paso 1 → Paso 2 ─────────────────────────────────────────────
-  function goToStep2() {
-    const nombre   = document.getElementById('nombre').value.trim();
-    const apellido = document.getElementById('apellido').value.trim();
-    const ciudad   = document.getElementById('ciudad').value.trim();
-    const ocup     = document.getElementById('ocupacion').value;
-    const comidas  = [...document.querySelectorAll('.comida-check:checked')].map(c => c.value);
-
-    if (!nombre || !apellido || !ciudad || !ocup) {
-      alert('Faltan datos en el expediente 🗂️ Completa todos los campos para continuar.');
-      return;
-    }
-    if (comidas.length === 0) {
-      alert('Vulnerabilidad crítica no detectada 🍴 Elige al menos una opción de comida.');
-      return;
-    }
-
-    document.getElementById('hNombre').value    = nombre;
-    document.getElementById('hApellido').value  = apellido;
-    document.getElementById('hCiudad').value    = ciudad;
-    document.getElementById('hOcupacion').value = ocup;
-    document.getElementById('hComida').value    = comidas.join(', ');
-    document.getElementById('nombreDisplay').textContent = nombre;
-
-    document.getElementById('step1').style.display = 'none';
-    document.getElementById('step2').classList.add('visible');
-  }
 
   // ── Submit ───────────────────────────────────────────────────────
   document.getElementById('mainForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const horaRadio = document.querySelector('input[name="Hora"]:checked');
-    const horaVal   = horaRadio?.value === 'Otra'
-      ? document.getElementById('horaOtra').value.trim()
-      : horaRadio?.value ?? '';
-    const fechaVal  = document.querySelector('input[name="Fecha"]:checked')?.value ?? '';
+    const nombre  = document.getElementById('nombre').value.trim();
+    const comidas = [...document.querySelectorAll('.comida-check:checked')].map(c => c.value);
 
-    if (!fechaVal) { alert('Elige la ventana operativa 📅'); return; }
-    if (!horaVal)  { alert('Confirma la hora de extracción ⏰'); return; }
+    if (!nombre) {
+      alert('Falta tu nombre 🙈');
+      return;
+    }
+    if (comidas.length === 0) {
+      alert('¿Qué te gusta comer? Elige al menos una opción 🍴');
+      return;
+    }
 
-    document.getElementById('hHora').value       = horaVal;
-    document.getElementById('hRespuesta').value  = 'Acepto la misión ✅';
+    document.getElementById('hComida').value    = comidas.join(', ');
+    document.getElementById('hRespuesta').value = 'Acepto la misión ✅';
 
     try {
       const res = await fetch(this.action, {
@@ -513,13 +420,13 @@
       });
 
       if (res.ok) {
-        document.getElementById('step2').style.display = 'none';
+        document.getElementById('formStep').style.display = 'none';
         document.getElementById('success').classList.add('visible');
       } else {
         alert('Error al enviar 😕 Intenta de nuevo.');
       }
     } catch {
-      alert('Sin conexión 📡 Mándale captura de sus respuestas por donde estén hablando.');
+      alert('Sin conexión 📡');
     }
   });
 
@@ -527,25 +434,26 @@
   function declineDate() {
     const btn  = document.getElementById('btnDecline');
     const msgs = [
-      'El agente no acepta un no como respuesta 🕵️',
-      'Se han registrado sus objeciones. Reconsiderando… 🗂️',
-      'Dato clasificado: el ramen no se come solo 🍜',
-      'Último intento. El plan es bueno, lo prometo 🤞',
+      '¿Segura? 🤔',
+      'Piénsalo bien, anda… 👀',
+      'Ok… última oportunidad 🥺',
     ];
     const idx = parseInt(btn.dataset.attempt || '0');
     if (idx < msgs.length) {
       btn.textContent     = msgs[idx];
       btn.dataset.attempt = idx + 1;
     } else {
-      btn.textContent = 'Recibido. Te contacto por otros canales 📡';
-      btn.disabled    = true;
-      const form = document.getElementById('mainForm');
+      btn.disabled = true;
+      const form   = document.getElementById('mainForm');
+      document.getElementById('hComida').value    = [...document.querySelectorAll('.comida-check:checked')].map(c => c.value).join(', ');
       document.getElementById('hRespuesta').value = 'No aceptó la misión 😔';
       fetch(form.action, {
         method: 'POST',
         body: new FormData(form),
         headers: { 'Accept': 'application/json' },
       }).catch(() => {});
+      document.getElementById('formStep').style.display = 'none';
+      document.getElementById('rejection').classList.add('visible');
     }
   }
 </script>
