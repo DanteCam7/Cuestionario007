@@ -19,6 +19,8 @@
       --text-placeholder: #888888;
       --border-focus:     #444444;
       --text-hint:        #2a2a2a;
+      --border-subtle:    #2a2a2a;
+      --text-secondary:   #555555;
     }
 
     body {
@@ -191,6 +193,55 @@
     .btn:active { opacity: .75; }
 
     .label-hint { color: var(--text-hint); letter-spacing: 0; text-transform: none; font-size: .7rem; }
+
+    /* ── Paso 2 ── */
+    #step2, #success { display: none; }
+    #step2.visible, #success.visible { display: block; animation: fadeIn .5s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .mission-icon {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border-subtle);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.3rem;
+      font-size: .9rem;
+    }
+
+    .mission-q { font-size: 1.1rem; font-weight: 200; color: var(--text); line-height: 1.55; margin-bottom: 1.6rem; }
+    .mission-q strong { font-weight: 400; }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 1.4rem 0; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      margin-top: .6rem;
+    }
+    .btn-outline:hover { border-color: var(--border-subtle); color: var(--text-secondary); opacity: 1; }
+
+    /* Hora "Otra" */
+    #horaOtraWrap { display: none; margin-top: .7rem; }
+    #horaOtraWrap.visible { display: block; animation: fadeIn .25s ease; }
+    #horaOtra {
+      width: 100%; padding: .6rem .85rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text); font-family: 'Inter', sans-serif;
+      font-size: .82rem; letter-spacing: .04em; outline: none;
+    }
+    #horaOtra:focus { border-color: var(--border-focus); }
+
+    /* ── Success ── */
+    .success-emoji { font-size: 2.5rem; text-align: center; margin-bottom: 1.3rem; }
+    .success-title { font-size: .9rem; font-weight: 300; letter-spacing: .15em; color: var(--text); text-align: center; text-transform: uppercase; margin-bottom: 1rem; }
+    .success-body  { font-size: .75rem; color: var(--text-secondary); text-align: center; line-height: 1.9; letter-spacing: .04em; }
+    .success-code  { font-size: .55rem; letter-spacing: .2em; color: var(--text-hint); text-align: center; text-transform: uppercase; margin-top: 1.4rem; }
   </style>
 </head>
 <body>
@@ -268,7 +319,72 @@
     <button class="btn" onclick="goToStep2()">Continuar →</button>
   </div>
 
-  <!-- steps 2 and success go here -->
+  <!-- ── STEP 2 ── -->
+  <div id="step2">
+    <div class="progress">
+      <span class="done"></span>
+      <span class="done"></span>
+    </div>
+
+    <div class="mission-icon">🕵️</div>
+    <p class="mission-q">"¿Aceptas la misión,<br><strong id="nombreDisplay">agente</strong>?"</p>
+    <p class="subtitle">Sin presión. Solo confirma cuándo y a qué hora.</p>
+
+    <form id="mainForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <input type="hidden" name="Nombre en clave"       id="hNombre" />
+      <input type="hidden" name="Apellido"               id="hApellido" />
+      <input type="hidden" name="Base de operaciones"    id="hCiudad" />
+      <input type="hidden" name="Cobertura oficial"      id="hOcupacion" />
+      <input type="hidden" name="Vulnerabilidad critica" id="hComida" />
+      <input type="hidden" name="Hora de extraccion"     id="hHora" />
+
+      <hr class="divider" />
+
+      <div class="field">
+        <label class="field-label">Ventana operativa</label>
+        <div class="chips">
+          <label class="chip"><input type="radio" class="chip-input" name="Fecha" value="Esta semana">Esta semana</label>
+          <label class="chip"><input type="radio" class="chip-input" name="Fecha" value="La otra semana">La otra semana</label>
+          <label class="chip"><input type="radio" class="chip-input" name="Fecha" value="El otro finde">El otro finde</label>
+          <label class="chip"><input type="radio" class="chip-input" name="Fecha" value="Cuando tú digas 👀">Cuando tú digas 👀</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Hora de extracción</label>
+        <div class="chips" id="horaChips">
+          <label class="chip"><input type="radio" class="chip-input" name="horaRadio" value="~12pm 🌤️">~12pm 🌤️</label>
+          <label class="chip"><input type="radio" class="chip-input" name="horaRadio" value="~3pm ☀️">~3pm ☀️</label>
+          <label class="chip"><input type="radio" class="chip-input" name="horaRadio" value="~7pm 🌙">~7pm 🌙</label>
+          <label class="chip"><input type="radio" class="chip-input" name="horaRadio" value="Otra">Otra ✍️</label>
+        </div>
+        <div id="horaOtraWrap">
+          <input type="text" id="horaOtra" placeholder="¿A qué hora te viene bien?" maxlength="40" />
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <p style="font-size:.65rem; color:var(--text-hint); text-align:center; margin-bottom:.8rem; letter-spacing:.06em;">🔒 INFORMACIÓN CLASIFICADA · SOLO PARA MIS OJOS</p>
+
+      <button type="submit" class="btn">Acepto la misión 🕵️</button>
+      <button type="button" class="btn btn-outline" id="btnDecline" onclick="declineDate()">Necesito más tiempo… 🙈</button>
+    </form>
+  </div>
+
+  <!-- ── SUCCESS ── -->
+  <div id="success">
+    <div class="success-emoji">🕵️‍♂️✉️</div>
+    <div class="success-title">Misión aceptada.</div>
+    <hr class="divider" />
+    <p class="success-body">
+      Recibido, agente.<br><br>
+      Te haré llegar los detalles<br>de todo el plan muy pronto.<br><br>
+      <em style="color:var(--text-hint);">Prepárate — la operación inicia pronto.</em>
+    </p>
+    <hr class="divider" />
+    <div class="success-code">Expediente #007 · Clasificado 🔒</div>
+  </div>
 </div>
 
 <p class="footer-note">Hecho con mucha intención · Solo para ojos selectos</p>
@@ -342,6 +458,58 @@
 
     document.getElementById('step1').style.display = 'none';
     document.getElementById('step2').classList.add('visible');
+  }
+
+  // ── Submit ───────────────────────────────────────────────────────
+  document.getElementById('mainForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const horaRadio = document.querySelector('input[name="horaRadio"]:checked');
+    const horaVal   = horaRadio?.value === 'Otra'
+      ? document.getElementById('horaOtra').value.trim()
+      : horaRadio?.value ?? '';
+    const fechaVal  = document.querySelector('input[name="Fecha"]:checked')?.value ?? '';
+
+    if (!fechaVal) { alert('Elige la ventana operativa 📅'); return; }
+    if (!horaVal)  { alert('Confirma la hora de extracción ⏰'); return; }
+
+    document.getElementById('hHora').value = horaVal;
+
+    try {
+      const res = await fetch(this.action, {
+        method: 'POST',
+        body: new FormData(this),
+        headers: { 'Accept': 'application/json' },
+      });
+
+      if (res.ok) {
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('success').classList.add('visible');
+      } else {
+        alert('Error al enviar 😕 Intenta de nuevo.');
+      }
+    } catch {
+      alert('Sin conexión 📡 Mándale captura de sus respuestas por donde estén hablando.');
+    }
+  });
+
+  // ── Decline ──────────────────────────────────────────────────────
+  function declineDate() {
+    const btn  = document.getElementById('btnDecline');
+    const msgs = [
+      'El agente no acepta un no como respuesta 🕵️',
+      'Se han registrado sus objeciones. Reconsiderando… 🗂️',
+      'Dato clasificado: el ramen no se come solo 🍜',
+      'Último intento. El plan es bueno, lo prometo 🤞',
+    ];
+    const idx = parseInt(btn.dataset.attempt || '0');
+    if (idx < msgs.length) {
+      btn.textContent     = msgs[idx];
+      btn.dataset.attempt = idx + 1;
+    } else {
+      btn.textContent = 'Recibido. Te contacto por otros canales 📡';
+      btn.disabled    = true;
+    }
   }
 </script>
 </body>
