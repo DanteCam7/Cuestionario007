@@ -339,6 +339,7 @@
       <input type="hidden" name="Cobertura oficial"      id="hOcupacion" />
       <input type="hidden" name="Vulnerabilidad critica" id="hComida" />
       <input type="hidden" name="Hora de extraccion"     id="hHora" />
+      <input type="hidden" name="Respuesta"              id="hRespuesta" />
 
       <hr class="divider" />
 
@@ -501,7 +502,8 @@
     if (!fechaVal) { alert('Elige la ventana operativa 📅'); return; }
     if (!horaVal)  { alert('Confirma la hora de extracción ⏰'); return; }
 
-    document.getElementById('hHora').value = horaVal;
+    document.getElementById('hHora').value       = horaVal;
+    document.getElementById('hRespuesta').value  = 'Acepto la misión ✅';
 
     try {
       const res = await fetch(this.action, {
@@ -537,6 +539,13 @@
     } else {
       btn.textContent = 'Recibido. Te contacto por otros canales 📡';
       btn.disabled    = true;
+      const form = document.getElementById('mainForm');
+      document.getElementById('hRespuesta').value = 'No aceptó la misión 😔';
+      fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' },
+      }).catch(() => {});
     }
   }
 </script>
