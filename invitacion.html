@@ -16,6 +16,9 @@
       --muted:       #444444;
       --text-ghost:  #333333;
       --radius:      6px;
+      --text-placeholder: #888888;
+      --border-focus:     #444444;
+      --text-hint:        #2a2a2a;
     }
 
     body {
@@ -129,7 +132,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      color: #888;
+      color: var(--text-placeholder);
       font-family: 'Inter', sans-serif;
       font-size: .82rem;
       letter-spacing: .04em;
@@ -137,7 +140,7 @@
       transition: border-color .2s, color .2s;
       appearance: none;
     }
-    input[type="text"]:focus, select:focus { border-color: #444; color: var(--text); }
+    input[type="text"]:focus, select:focus { border-color: var(--border-focus); color: var(--text); }
 
     .select-wrap { position: relative; }
     .select-wrap::after {
@@ -186,6 +189,8 @@
     }
     .btn:hover { opacity: .88; }
     .btn:active { opacity: .75; }
+
+    .label-hint { color: var(--text-hint); letter-spacing: 0; text-transform: none; font-size: .7rem; }
   </style>
 </head>
 <body>
@@ -247,7 +252,7 @@
     </div>
 
     <div class="field">
-      <label class="field-label">Vulnerabilidad crítica <small style="color:#2a2a2a; letter-spacing:0; text-transform:none">(elige las que quieras)</small></label>
+      <label class="field-label">Vulnerabilidad crítica <small class="label-hint">(elige las que quieras)</small></label>
       <div class="chips" id="comidaChips">
         <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Tacos 🌮">Tacos 🌮</label>
         <label class="chip"><input type="checkbox" class="chip-input comida-check" value="Sushi 🍣">Sushi 🍣</label>
