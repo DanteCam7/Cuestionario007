@@ -242,6 +242,7 @@
     .success-title { font-size: .9rem; font-weight: 300; letter-spacing: .15em; color: var(--text); text-align: center; text-transform: uppercase; margin-bottom: 1rem; }
     .success-body  { font-size: .75rem; color: var(--text-secondary); text-align: center; line-height: 1.9; letter-spacing: .04em; }
     .success-code  { font-size: .55rem; letter-spacing: .2em; color: var(--text-hint); text-align: center; text-transform: uppercase; margin-top: 1.4rem; }
+    .success-em { color: var(--text-hint); font-style: italic; }
   </style>
 </head>
 <body>
@@ -353,10 +354,10 @@
       <div class="field">
         <label class="field-label">Hora de extracción</label>
         <div class="chips" id="horaChips">
-          <label class="chip"><input type="radio" class="chip-input" name="horaRadio" value="~12pm 🌤️">~12pm 🌤️</label>
-          <label class="chip"><input type="radio" class="chip-input" name="horaRadio" value="~3pm ☀️">~3pm ☀️</label>
-          <label class="chip"><input type="radio" class="chip-input" name="horaRadio" value="~7pm 🌙">~7pm 🌙</label>
-          <label class="chip"><input type="radio" class="chip-input" name="horaRadio" value="Otra">Otra ✍️</label>
+          <label class="chip"><input type="radio" class="chip-input" name="Hora" value="~12pm 🌤️">~12pm 🌤️</label>
+          <label class="chip"><input type="radio" class="chip-input" name="Hora" value="~3pm ☀️">~3pm ☀️</label>
+          <label class="chip"><input type="radio" class="chip-input" name="Hora" value="~7pm 🌙">~7pm 🌙</label>
+          <label class="chip"><input type="radio" class="chip-input" name="Hora" value="Otra">Otra ✍️</label>
         </div>
         <div id="horaOtraWrap">
           <input type="text" id="horaOtra" placeholder="¿A qué hora te viene bien?" maxlength="40" />
@@ -380,7 +381,7 @@
     <p class="success-body">
       Recibido, agente.<br><br>
       Te haré llegar los detalles<br>de todo el plan muy pronto.<br><br>
-      <em style="color:var(--text-hint);">Prepárate — la operación inicia pronto.</em>
+      <em class="success-em">Prepárate — la operación inicia pronto.</em>
     </p>
     <hr class="divider" />
     <div class="success-code">Expediente #007 · Clasificado 🔒</div>
@@ -426,7 +427,9 @@
         chip.classList.add('selected');
         input.checked = true;
         if (group.id === 'horaChips') {
-          document.getElementById('horaOtraWrap').classList.toggle('visible', input.value === 'Otra');
+          const showOtra = input.value === 'Otra';
+          document.getElementById('horaOtraWrap').classList.toggle('visible', showOtra);
+          if (showOtra) { document.getElementById('horaOtra').focus(); }
         }
       }
     });
@@ -464,7 +467,7 @@
   document.getElementById('mainForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const horaRadio = document.querySelector('input[name="horaRadio"]:checked');
+    const horaRadio = document.querySelector('input[name="Hora"]:checked');
     const horaVal   = horaRadio?.value === 'Otra'
       ? document.getElementById('horaOtra').value.trim()
       : horaRadio?.value ?? '';
