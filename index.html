@@ -169,6 +169,7 @@
       user-select: none;
     }
     .chip.selected { border-color: var(--text); color: var(--text); background: var(--bg); }
+    .chip.disabled { opacity: .25; cursor: not-allowed; pointer-events: none; }
     .chip-input { display: none; }
 
     /* ── Button ── */
@@ -343,7 +344,7 @@
 
       <div class="field">
         <label class="field-label">Ventana operativa</label>
-        <div class="chips">
+        <div class="chips" id="fechaChips">
           <label class="chip"><input type="radio" class="chip-input" name="Fecha" value="Esta semana">Esta semana</label>
           <label class="chip"><input type="radio" class="chip-input" name="Fecha" value="La otra semana">La otra semana</label>
           <label class="chip"><input type="radio" class="chip-input" name="Fecha" value="El otro finde">El otro finde</label>
@@ -431,9 +432,33 @@
           document.getElementById('horaOtraWrap').classList.toggle('visible', showOtra);
           if (showOtra) { document.getElementById('horaOtra').focus(); }
         }
+        if (group.id === 'fechaChips') {
+          updateHoraAvailability(input.value);
+        }
       }
     });
   });
+
+  // ── Hora availability por fecha ─────────────────────────────────
+  const EARLY_HOURS = ['~12pm 🌤️', '~3pm ☀️'];
+
+  function updateHoraAvailability(fecha) {
+    document.getElementById('horaChips').querySelectorAll('.chip').forEach(chip => {
+      const input = chip.querySelector('input');
+      if (!input) return;
+      const isEarly = EARLY_HOURS.includes(input.value);
+      if (fecha === 'Esta semana' && isEarly) {
+        chip.classList.add('disabled');
+        if (input.checked) {
+          input.checked = false;
+          chip.classList.remove('selected');
+          document.getElementById('horaOtraWrap').classList.remove('visible');
+        }
+      } else {
+        chip.classList.remove('disabled');
+      }
+    });
+  }
 
   // ── Paso 1 → Paso 2 ─────────────────────────────────────────────
   function goToStep2() {
