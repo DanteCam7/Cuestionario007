@@ -9,12 +9,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:      #0a0a0a;
-      --surface: #111111;
-      --border:  #1c1c1c;
-      --text:    #ffffff;
-      --muted:   #444444;
-      --radius:  6px;
+      --bg:          #0a0a0a;
+      --surface:     #111111;
+      --border:      #1c1c1c;
+      --text:        #ffffff;
+      --muted:       #444444;
+      --text-ghost:  #333333;
+      --radius:      6px;
     }
 
     body {
@@ -91,7 +92,7 @@
       margin-top: 2rem;
       font-size: .6rem;
       letter-spacing: .12em;
-      color: #222;
+      color: var(--text-ghost);
       text-transform: uppercase;
       text-align: center;
     }
